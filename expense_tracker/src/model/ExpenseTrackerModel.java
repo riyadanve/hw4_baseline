@@ -86,6 +86,9 @@ public class ExpenseTrackerModel {
       copyOfMatchedFilterIndices.addAll(this.matchedFilterIndices);
       return copyOfMatchedFilterIndices;
   }
+  
+  //List to hold registered observers
+  private List<ExpenseTrackerModelListener> listeners = new ArrayList<>();
 
   /**
    * Registers the given ExpenseTrackerModelListener for
@@ -99,6 +102,10 @@ public class ExpenseTrackerModel {
       // For the Observable class, this is one of the methods.
       //
       // TODO
+	  if (listener != null && !listeners.contains(listener)) {
+          listeners.add(listener);
+          return true;
+      }
       return false;
   }
 
@@ -106,19 +113,23 @@ public class ExpenseTrackerModel {
       // For testing, this is one of the methods.
       //
       //TODO
-      return 0;
+		  return listeners.size();
   }
 
   public boolean containsListener(ExpenseTrackerModelListener listener) {
       // For testing, this is one of the methods.
       //
       //TODO
-      return false;
+	  
+	  return listeners.contains(listener);
   }
 
   protected void stateChanged() {
       // For the Observable class, this is one of the methods.
       //
       //TODO
+	  for (ExpenseTrackerModelListener listener : listeners) {
+		  listener.update(this);
+      }
   }
 }
