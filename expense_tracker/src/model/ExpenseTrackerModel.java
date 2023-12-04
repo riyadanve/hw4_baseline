@@ -36,6 +36,7 @@ public class ExpenseTrackerModel {
     transactions.add(t);
     // The previous filter is no longer valid.
     matchedFilterIndices.clear();
+    stateChanged();
   }
 
   /**
@@ -46,6 +47,7 @@ public class ExpenseTrackerModel {
     transactions.remove(t);
     // The previous filter is no longer valid.
     matchedFilterIndices.clear();
+    stateChanged();
   }
 
   /**
@@ -74,6 +76,7 @@ public class ExpenseTrackerModel {
       // For encapsulation, copy in the input list 
       this.matchedFilterIndices.clear();
       this.matchedFilterIndices.addAll(newMatchedFilterIndices);
+      stateChanged();
   }
 
   /**
@@ -100,8 +103,7 @@ public class ExpenseTrackerModel {
    */   
   public boolean register(ExpenseTrackerModelListener listener) {
       // For the Observable class, this is one of the methods.
-      //
-      // TODO
+      
 	  if (listener != null && !listeners.contains(listener)) {
           listeners.add(listener);
           return true;
@@ -109,25 +111,36 @@ public class ExpenseTrackerModel {
       return false;
   }
 
+  /**
+   * Gives the number of listeners
+   *
+   * @return Total number of listeners
+   */ 
   public int numberOfListeners() {
       // For testing, this is one of the methods.
-      //
-      //TODO
+      
 		  return listeners.size();
   }
 
+  /**
+   * Checks if a listener is present
+   *
+   * @param listener The listener object
+   * @return True if it is present, false if not.
+   */ 
   public boolean containsListener(ExpenseTrackerModelListener listener) {
       // For testing, this is one of the methods.
-      //
-      //TODO
 	  
 	  return listeners.contains(listener);
   }
 
+  /**
+   * Updates the listeners' list when the state of the application is changed
+   *
+   */ 
   protected void stateChanged() {
       // For the Observable class, this is one of the methods.
-      //
-      //TODO
+      
 	  for (ExpenseTrackerModelListener listener : listeners) {
 		  listener.update(this);
       }
