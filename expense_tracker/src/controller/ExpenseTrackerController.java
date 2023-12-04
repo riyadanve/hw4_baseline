@@ -11,6 +11,11 @@ import java.util.List;
 
 import javax.swing.JOptionPane;
 
+/** 
+ * The Controller is applying the Strategy design pattern.
+ * This is the has-a relationship with the Strategy class 
+ * being used in the applyFilter method.
+ */
 public class ExpenseTrackerController implements ExpenseTrackerModelListener {
   
   private ExpenseTrackerModel model;
@@ -24,6 +29,7 @@ public class ExpenseTrackerController implements ExpenseTrackerModelListener {
   }
 
   public void setFilter(TransactionFilter filter) {
+	// Sets the Strategy class being used in the applyFilter method.
     this.filter = filter;
   }
 
@@ -55,12 +61,15 @@ public class ExpenseTrackerController implements ExpenseTrackerModelListener {
     }
   }
 
+//for undoing any selected transaction
   public boolean undoTransaction(int rowIndex) {
     if (rowIndex >= 0 && rowIndex < model.getTransactions().size()) {
       Transaction removedTransaction = model.getTransactions().get(rowIndex);
       model.removeTransaction(removedTransaction);
+      // The undo was allowed.
       return true;
     }
+    // The undo was disallowed.
     return false;
   }
 
